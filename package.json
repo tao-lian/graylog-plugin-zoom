@@ -1,0 +1,27 @@
+{
+  "name": "ZoomNotificationPlugin",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "Send Zoom notification via webhook",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tao-lian/graylog-plugin-zoom"
+  },
+  "scripts": {
+    "build": "webpack",
+    "lint": "eslint src",
+    "lint:path": "eslint",
+    "test": "jest"
+  },
+  "keywords": [
+    "graylog"
+  ],
+  "author": "Tao Lian <liantao@hotmail.com>",
+  "eslintConfig": {
+    "extends": "graylog"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "graylog-web-plugin": "file:../graylog2-server/graylog2-web-interface/packages/graylog-web-plugin"
+  }
+}
