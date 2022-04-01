@@ -1,23 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ControlLabel, FormGroup, HelpBlock } from 'react-bootstrap';
 import lodash from 'lodash';
 
-import MultiSelect from './components/MultiSelect';
 import Input from './components/Input';
 import FormsUtils from './utils/FormUtils';
-
-const DEFAULT_MESSAGE_TEMPLATE = `<b>\${event.message}</b>\${if event.timerange_start}
-Timerange: \${event.timerange_start} to \${event.timerange_end}\${end}\${if streams}
-Streams:\${foreach streams stream} <a href='\${stream.url}'>\${stream.title}</a>\${end}\${end}
-\${if message_too_long}
-An alert was triggered, but the message was too long. Please check the Graylog interface for details.
-\${else}\${if backlog}<code>\${foreach backlog message}
-\${message.message}
-\${end}</code>\${else}
-<i>- no backlog -</i>
-\${end}
-\${end}`;
 
 class ZoomNotificationForm extends React.Component {
   static propTypes = {
@@ -30,7 +16,12 @@ class ZoomNotificationForm extends React.Component {
     webhook: '',
     token: '',
     graylog_url: (document && document.location ? document.location.origin : ''),
-    message_template: DEFAULT_MESSAGE_TEMPLATE,
+    message_template: `\${event.message}: \${if event.timerange_start}
+Timerange: \${event.timerange_start} to \${event.timerange_end}\${end}\${if streams}
+Streams:\${foreach streams stream} <a href='\${stream.url}'>\${stream.title}</a>\${end}\${end}
+\${if backlog}\${foreach backlog message}
+\${message.message}
+\${end}\${else}No backlog\${end}`,
     proxy_address: '',
     proxy_user: '',
     proxy_password: '',

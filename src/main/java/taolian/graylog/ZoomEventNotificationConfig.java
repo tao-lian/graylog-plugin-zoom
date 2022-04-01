@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableSet;
-
 import taolian.graylog.entities.ZoomEventNotificationConfigEntity;
 
 import org.graylog.events.contentpack.entities.EventNotificationConfigEntity;
@@ -20,7 +18,6 @@ import org.graylog2.contentpacks.model.entities.references.ValueReference;
 import org.graylog2.plugin.rest.ValidationResult;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
 
 @AutoValue
 @JsonTypeName(ZoomEventNotificationConfig.TYPE_NAME)

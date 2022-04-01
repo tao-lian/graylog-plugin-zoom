@@ -3,9 +3,11 @@ package taolian.graylog;
 import java.io.IOException;
 
 import org.apache.http.HttpHeaders;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
@@ -33,6 +35,7 @@ public class ZoomClient {
 	public void Send(String message) throws Exception {
 		try(CloseableHttpClient httpclient = HttpClients.createDefault()){
 		    HttpPost req = new HttpPost(this._endpoint);
+		    		    
 		    req.setEntity(new StringEntity(message));
 		    req.setHeader(HttpHeaders.AUTHORIZATION, this._token);
 		    try (CloseableHttpResponse resp = httpclient.execute(req)) {

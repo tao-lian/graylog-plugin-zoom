@@ -15,7 +15,6 @@ import org.graylog2.contentpacks.model.entities.references.ValueReference;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Map;
-import java.util.Set;
 
 @AutoValue
 @JsonTypeName(ZoomEventNotificationConfigEntity.TYPE_NAME)
