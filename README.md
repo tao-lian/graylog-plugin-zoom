@@ -1,14 +1,11 @@
 # ZoomNotificationPlugin Plugin for Graylog
 
-
-__Use this paragraph to enter a description of your plugin.__
-
-**Required Graylog version:** 2.0 and later
+This plugin has been developed and tested on graylog version 4.2.7. It may works on older versions of graylog but please test it before using it.
 
 Installation
 ------------
 
-[Download the plugin](https://github.com/graylog-plugin-zoom/releases)
+[Download the plugin](https://github.com/tao-lian/graylog-plugin-zoom/releases)
 and place the `.jar` file in your Graylog plugin directory. The plugin directory
 is the `plugins/` folder relative from your `graylog-server` directory by default
 and can be configured in your `graylog.conf` file.
@@ -29,29 +26,25 @@ dramatically by making use of hot reloading. To do this, do the following:
 Usage
 -----
 
-__Use this paragraph to document the usage of your plugin__
+__Step 1: Install Zoom Incoming Webhook__
 
+Install Incoming webhook plugin from Zoom marketplace:
 
-Getting started
----------------
+[App Marketplace: Incoming Webhook](https://marketplace.zoom.us/apps/eH_dLuquRd-VYcOsNGy-hQ)
 
-This project is using Maven 3 and requires Java 8 or higher.
+Note: make sure you have correct permission to approve the app installation, for more details: [Managing the Zoom App Marketplace](https://support.zoom.us/hc/en-us/articles/360032447812-Managing-the-Zoom-App-Marketplace)
 
-* Clone this repository.
-* Run `mvn package` to build a JAR file.
-* Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
-* Copy generated JAR file in target directory to your Graylog plugin directory.
-* Restart the Graylog.
+__Step 2: Create a incoming webhook__
 
-Plugin Release
---------------
+Using __/inc connect NAME__ in a channel to create a webhook. You will receive endpoint and verification token after incoming webhook successfully created.
 
-We are using the maven release plugin:
+![](doc/zoomWebhook.png)
 
-```
-$ mvn release:prepare
-[...]
-$ mvn release:perform
-```
+__Step 3: Create a Zoom notification 
 
-This sets the version numbers, creates a tag and pushes to GitHub. Travis CI will build the release artifacts and upload to GitHub automatically.
+* Go to Graylog -> Alerts -> Notifications -> New Notifications and select "Zoom Notification" as notification type. 
+* Using the endpoint URL and token generated in Step 2
+* Graylog URL will be pre-populated with your current domain name. 
+* Customise the message template
+
+![](doc/newNotification.png)
