@@ -16,12 +16,12 @@ class ZoomNotificationForm extends React.Component {
     webhook: '',
     token: '',
     graylog_url: (document && document.location ? document.location.origin : ''),
-    message_template: `\${event.message}: \${if event.timerange_start}
-Timerange: \${event.timerange_start} to \${event.timerange_end}\${end}\${if streams}
-Streams:\${foreach streams stream} <a href='\${stream.url}'>\${stream.title}</a>\${end}\${end}
-\${if backlog}\${foreach backlog message}
-\${message.message}
-\${end}\${else}No backlog\${end}`,
+    message_template: `\${event.message}
+Priority:\${event.priority}\${if streams}
+Streams:\${foreach streams stream} \${stream.url}\${end}\${end}
+\${if backlog}Backlog:
+\${foreach backlog message}\${message.message}
+\${end}\${else}--No Backlog--\${end}`,
     proxy_address: '',
     proxy_user: '',
     proxy_password: '',
