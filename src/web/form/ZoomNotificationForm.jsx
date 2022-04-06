@@ -16,12 +16,43 @@ class ZoomNotificationForm extends React.Component {
     webhook: '',
     token: '',
     graylog_url: (document && document.location ? document.location.origin : ''),
+    json_format: true,
     message_template: `\${event.message}
 Priority:\${event.priority}\${if streams}
 Streams:\${foreach streams stream} \${stream.url}\${end}\${end}
 \${if backlog}Backlog:
 \${foreach backlog message}\${message.message}
 \${end}\${else}--No Backlog--\${end}`,
+	json_template: `{
+  "content": {
+    "head": {
+        "text": "Graylog Alert",
+        "sub_head":{
+            "text": "\${event.message}"
+        },
+        "style":{
+            "bold": true
+        }
+    },
+    "body": [{
+        "type": "fields",
+        "items": [
+	        {
+	          "key": "Priority",
+	          "value": "\${event.priority}"
+	        }\${if streams},
+	        {
+	          "key": "Streams",
+	          "value": "\${foreach streams stream} \${stream.url}\${end}"
+	        }\${end}\${if backlog}\${foreach backlog message},
+	        {
+	          "key": "Message - \${message.timestamp}",
+	          "value": "\${message.message}"
+	        }\${end}\${end}
+	    ]
+    }]
+  }
+}`,
     proxy_address: '',
     proxy_user: '',
     proxy_password: '',
@@ -78,6 +109,15 @@ Streams:\${foreach streams stream} \${stream.url}\${end}\${end}
                onChange={this.handleChange}
                required />
 
+        <Input id="notification-json_format"
+	           name="json_format"
+	           label="JSON Format"
+	           type="checkbox"
+	           bsStyle={validation.errors.json_format ? "error" : null}
+	           help={lodash.get(validation, "errors.json_format[0]", "Use JSON format as the message payload.")}
+	           checked={config.json_format || ""}
+	           onChange={this.handleChange} />
+        
         
         <Input id="notification-message-template"
                name="message_template"
@@ -87,10 +127,19 @@ Streams:\${foreach streams stream} \${stream.url}\${end}\${end}
                bsStyle={validation.errors.message_template ? 'error' : null}
                help={lodash.get(validation, 'errors.message_template[0]', <>See <a href="https://docs.graylog.org/docs/alerts#notifications" target="_blank" rel="noopener">Graylog documentation</a> for more details.</>)}
                value={config.message_template || ''}
-               onChange={this.handleChange}
-               required />
+               onChange={this.handleChange} />
                
-               <Input id="notification-proxy-address"
+        <Input id="notification-json-template"
+               name="json_template"
+               label="JSON Template"
+               type="textarea"
+               rows={10}
+               bsStyle={validation.errors.json_template ? 'error' : null}
+               help={lodash.get(validation, 'errors.json_template[0]', <>See <a href="https://docs.graylog.org/docs/alerts#notifications" target="_blank" rel="noopener">Graylog documentation</a> for more details.</>)}
+               value={config.json_template || ''}
+               onChange={this.handleChange} />
+               
+        <Input id="notification-proxy-address"
                name="proxy_address"
                label={<>HTTP Proxy Address <small className="text-muted">(Optional)</small></>}
                type="text"

@@ -32,8 +32,16 @@ class ZoomNotificationSummary extends React.Component {
             <td>{notification.config.graylog_url}</td>
           </tr>
           <tr>
-            <td>Message</td>
+            <td>JSON Format</td>
+            <td>{notification.config.json_format}</td>
+          </tr>
+          <tr>
+            <td>Message Template</td>
             <td>{notification.config.message_template}</td>
+          </tr>
+          <tr>
+            <td>JSON Template</td>
+            <td>{notification.config.json_template}</td>
           </tr>
           { notification.config.proxy_address ? <tr>
             <td>HTTP Proxy Address</td>
