@@ -25,7 +25,9 @@ const ZoomNotificationDetails = ({ notification }) => {
       <ReadOnlyFormGroup label="Endpoint" value={notification.config.webhook} />
       <ReadOnlyFormGroup label="Token" value={notification.config.token} />
       <ReadOnlyFormGroup label="Graylog URL" value={notification.config.graylog_url} />
+      <ReadOnlyFormGroup label="JSON Format" value={notification.config.json_format} />
       <ReadOnlyFormGroup label="Message" value={notification.config.message_template} />
+      <ReadOnlyFormGroup label="JSON" value={notification.config.json_template} />
       { notification.config.proxy_address ?
         <ReadOnlyFormGroup label="HTTP Proxy Address" value={notification.config.proxy_address} />
       : null}

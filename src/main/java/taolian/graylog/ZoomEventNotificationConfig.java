@@ -28,7 +28,9 @@ public abstract class ZoomEventNotificationConfig implements EventNotificationCo
     private static final String FIELD_WEBHOOK = "webhook";
     private static final String FIELD_TOKEN = "token";
     private static final String FIELD_GRAYLOG_URL = "graylog_url";
+    private static final String FIELD_JSON_FORMAT = "json_format";
     private static final String FIELD_MESSAGE_TEMPLATE = "message_template";
+    private static final String FIELD_JSON_TEMPLATE = "json_template";
     private static final String FIELD_PROXY_ADDRESS = "proxy_address";
     private static final String FIELD_PROXY_USER = "proxy_user";
     private static final String FIELD_PROXY_PASSWORD = "proxy_password";
@@ -45,8 +47,13 @@ public abstract class ZoomEventNotificationConfig implements EventNotificationCo
     @NotBlank
     public abstract String graylogURL();
 
+    @JsonProperty(FIELD_JSON_FORMAT)
+    public abstract Boolean jsonFormat();
+    
+    @JsonProperty(FIELD_JSON_TEMPLATE)
+    public abstract String jsonTemplate();
+    
     @JsonProperty(FIELD_MESSAGE_TEMPLATE)
-    @NotBlank
     public abstract String messageTemplate();
 
     @JsonProperty(FIELD_PROXY_ADDRESS)
@@ -105,6 +112,12 @@ public abstract class ZoomEventNotificationConfig implements EventNotificationCo
         @JsonProperty(FIELD_GRAYLOG_URL)
         public abstract Builder graylogURL(String graylogURL);
 
+        @JsonProperty(FIELD_JSON_FORMAT)
+        public abstract Builder jsonFormat(Boolean jsonFormat);
+        
+        @JsonProperty(FIELD_JSON_TEMPLATE)
+        public abstract Builder jsonTemplate(String jsonTemplate);
+        
         @JsonProperty(FIELD_MESSAGE_TEMPLATE)
         public abstract Builder messageTemplate(String messageTemplate);
 
@@ -126,7 +139,9 @@ public abstract class ZoomEventNotificationConfig implements EventNotificationCo
         return ZoomEventNotificationConfigEntity.builder()
         		.webhook(ValueReference.of(webhook()))
         		.token(ValueReference.of(token()))
-                .graylogURL(ValueReference.of(graylogURL()))                
+                .graylogURL(ValueReference.of(graylogURL()))  
+                .jsonFormat(ValueReference.of(jsonFormat()))
+                .jsonTemplate(ValueReference.of(jsonTemplate()))
                 .messageTemplate(ValueReference.of(messageTemplate()))
                 .proxyAddress(ValueReference.of(proxyAddress()))
                 .proxyUser(ValueReference.of(proxyUser()))

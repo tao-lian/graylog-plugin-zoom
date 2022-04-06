@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.floreysoft.jmte.Engine;
 import com.google.common.collect.ImmutableList;
 
+import taolian.graylog.ZoomClient.ZoomPayloadFormat;
 import taolian.graylog.models.MessageModelData;
 import taolian.graylog.models.StreamModelData;
 
@@ -57,8 +58,6 @@ public class ZoomEventNotification implements EventNotification {
         this.nodeId = requireNonNull(nodeId, "nodeId");
         this.objectMapper = requireNonNull(objectMapper, "objectMapper");
         this.templateEngine = new Engine();
-        //templateEngine.registerNamedRenderer(new RawNoopRenderer());
-        //templateEngine.setEncoder(new TelegramHTMLEncoder());
     }
 
     @Override
@@ -67,16 +66,22 @@ public class ZoomEventNotification implements EventNotification {
 
         ImmutableList<MessageSummary> backlog = notificationCallbackService.getBacklogForEvent(ctx);
         Map<String, Object> model = getModel(ctx, backlog, config, false);
-        String message = templateEngine.transform(config.messageTemplate(), model);
-
 
         ZoomClient client = new ZoomClient(config.webhook(), config.token());
         client.SetProxyAddress(config.proxyAddress());
         client.SetProxyUser(config.proxyUser());
         client.SetProxyPassword(config.proxyPassword());
+        
 
         try {
-        	client.Send(message);
+        	if(config.jsonFormat()) {
+            	client.SetPayloadFormat(ZoomPayloadFormat.JSON);
+            	client.Send(templateEngine.transform(config.jsonTemplate(), model));
+            }else {
+            	client.SetPayloadFormat(ZoomPayloadFormat.TEXT);
+            	client.Send(templateEngine.transform(config.messageTemplate(), model));
+            }
+        	
         }catch (Exception e) {
 			String exceptionDetail = e.toString();
 			if (e.getCause() != null) {

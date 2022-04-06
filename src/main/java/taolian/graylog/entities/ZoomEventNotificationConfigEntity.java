@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import taolian.graylog.ZoomEventNotificationConfig;
+import taolian.graylog.ZoomEventNotificationConfig.Builder;
 
 import org.graylog.events.contentpack.entities.EventNotificationConfigEntity;
 import org.graylog.events.notifications.EventNotificationConfig;
@@ -25,7 +26,9 @@ public abstract class ZoomEventNotificationConfigEntity implements EventNotifica
     private static final String FIELD_WEBHOOK = "webhook";
     private static final String FIELD_TOKEN = "token";
     private static final String FIELD_GRAYLOG_URL = "graylog_url";
+    private static final String FIELD_JSON_FORMAT = "json_format";
     private static final String FIELD_MESSAGE_TEMPLATE = "message_template";
+    private static final String FIELD_JSON_TEMPLATE = "json_template";
     private static final String FIELD_PROXY_ADDRESS = "proxy_address";
     private static final String FIELD_PROXY_USER = "proxy_user";
     private static final String FIELD_PROXY_PASSWORD = "proxy_password";
@@ -43,8 +46,13 @@ public abstract class ZoomEventNotificationConfigEntity implements EventNotifica
     @NotBlank
     public abstract ValueReference graylogURL();
 
+    @JsonProperty(FIELD_JSON_FORMAT)
+    public abstract ValueReference jsonFormat();
+    
+    @JsonProperty(FIELD_JSON_TEMPLATE)
+    public abstract ValueReference jsonTemplate();
+    
     @JsonProperty(FIELD_MESSAGE_TEMPLATE)
-    @NotBlank
     public abstract ValueReference messageTemplate();
 
     @JsonProperty(FIELD_PROXY_ADDRESS)
@@ -80,6 +88,12 @@ public abstract class ZoomEventNotificationConfigEntity implements EventNotifica
         @JsonProperty(FIELD_GRAYLOG_URL)
         public abstract Builder graylogURL(ValueReference graylogURL);
 
+        @JsonProperty(FIELD_JSON_FORMAT)
+        public abstract Builder jsonFormat(ValueReference jsonFormat);
+        
+        @JsonProperty(FIELD_JSON_TEMPLATE)
+        public abstract Builder jsonTemplate(ValueReference jsonTemplate);
+        
         @JsonProperty(FIELD_MESSAGE_TEMPLATE)
         public abstract Builder messageTemplate(ValueReference messageTemplate);
 
@@ -100,8 +114,10 @@ public abstract class ZoomEventNotificationConfigEntity implements EventNotifica
         return ZoomEventNotificationConfig.builder()
         		.webhook(webhook().asString(parameters))
         		.token(token().asString(parameters))
-                .graylogURL(graylogURL().asString(parameters))                
+                .graylogURL(graylogURL().asString(parameters))
+                .jsonFormat(jsonFormat().asBoolean(parameters))
                 .messageTemplate(messageTemplate().asString(parameters))
+                .jsonTemplate(jsonTemplate().asString(parameters))
                 .proxyAddress(proxyAddress().asString(parameters))
                 .proxyUser(proxyUser().asString(parameters))
                 .proxyPassword(proxyPassword().asString(parameters))
